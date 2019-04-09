@@ -1,6 +1,7 @@
-package com.cormye.springnetty.netty;
+package com.cormye.springnetty.netty.server;
 
 import com.cormye.springnetty.config.NettyServerProperties;
+import com.cormye.springnetty.netty.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -13,9 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 /**
  * @author cormye
  * @date: 2019-03-29 18:00
@@ -23,7 +21,7 @@ import java.util.concurrent.Executors;
  */
 @Order(2)
 @Component
-public class DiscardServer implements CommandLineRunner {
+public class NettyServer implements CommandLineRunner {
 
     @Autowired
     NettyServerProperties serverProperties;
@@ -37,17 +35,18 @@ public class DiscardServer implements CommandLineRunner {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
                             ChannelPipeline pipeline = socketChannel.pipeline();
-                            pipeline.addLast(new DiscardServerHandler());
                             pipeline.addLast("decoder", new StringDecoder());
                             pipeline.addLast("encoder", new StringEncoder());
+                            pipeline.addLast(new ServerHandler());
                         }
-                    })
-                    .option(ChannelOption.SO_BACKLOG, 128)
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
+                    });
+
                     //绑定端口
             ChannelFuture f=serverBootstrap.bind(serverProperties.getPort()).sync();
 

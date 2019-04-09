@@ -1,4 +1,4 @@
-package com.cormye.springnetty.netty;
+package com.cormye.springnetty.netty.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -10,7 +10,7 @@ import io.netty.util.ReferenceCountUtil;
  * @Date: 2019-04-01 11:44
  * @Description:
  */
-public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
+public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

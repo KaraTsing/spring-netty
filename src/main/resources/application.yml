@@ -1,3 +1,6 @@
 netty:
   server:
     port: 9911
+  client:
+    server-ip: localhost
+    port: 9911
