@@ -1,4 +1,4 @@
-package com.cormye.common.server.handler;
+package com.cormye.server.handler;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -22,7 +22,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         logger.info("收到来自{}客户端的消息：{}", ctx.channel().remoteAddress(), new String(req));
-        ctx.writeAndFlush("12312312312312312");
+        ctx.writeAndFlush("我是ServerHandler");
     }
 
     @Override

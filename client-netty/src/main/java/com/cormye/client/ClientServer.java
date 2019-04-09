@@ -1,6 +1,6 @@
-package com.cormye.common.client;
+package com.cormye.client;
 
-import com.cormye.common.client.handler.ClientHandler;
+import com.cormye.client.handler.ClientHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;

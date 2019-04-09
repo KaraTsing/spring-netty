@@ -1,4 +1,4 @@
-package com.cormye.common.client.handler;
+package com.cormye.client.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -17,7 +17,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         logger.info("ClientHandler:{}",msg.toString());
-        ctx.writeAndFlush("cormye");
+        ctx.writeAndFlush("我是ClientHandler");
     }
 
     @Override

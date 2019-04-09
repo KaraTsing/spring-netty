@@ -1,4 +1,4 @@
-package com.cormye.common;
+package com.cormye;
 
 import com.cormye.common.config.NettyServerProperties;
 import com.cormye.common.config.NettyClientProperties;

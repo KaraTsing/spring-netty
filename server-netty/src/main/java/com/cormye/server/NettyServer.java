@@ -1,7 +1,7 @@
-package com.cormye.common.server;
+package com.cormye.server;
 
 import com.cormye.common.config.NettyServerProperties;
-import com.cormye.common.server.handler.ServerHandler;
+import com.cormye.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,6 +9,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -23,11 +25,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class NettyServer implements CommandLineRunner {
 
+    private  static Logger logger = LoggerFactory.getLogger(NettyServer.class);
+
     @Autowired
     NettyServerProperties serverProperties;
 
     @Override
     public void run(String... args) throws Exception {
+        logger.info("NettyServer启动...");
         //1.创建服务对象
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
