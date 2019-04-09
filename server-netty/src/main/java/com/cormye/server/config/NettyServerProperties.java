@@ -1,4 +1,4 @@
-package com.cormye.common.client.config;
+package com.cormye.server.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -9,11 +9,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Description:
  */
 @Data
-@ConfigurationProperties(prefix = "netty.client")
-public class NettyClientProperties {
+@ConfigurationProperties(prefix = "netty.server")
+public class NettyServerProperties {
 
-    private String serverIp;
     private int port;
-
+    
 
 }
