@@ -1,4 +1,4 @@
-package com.cormye.client;
+package com.cormye;
 
 import com.cormye.client.config.NettyClientProperties;
 import org.springframework.boot.SpringApplication;

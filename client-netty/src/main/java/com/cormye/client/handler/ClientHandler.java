@@ -1,22 +1,34 @@
 package com.cormye.client.handler;
 
+import com.cormye.common.proto.TranData;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @Auther: cormye
  * @Date: 2019-04-09 14:10
  * @Description:
  */
+@Slf4j
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
-    private  static Logger logger = LoggerFactory.getLogger(ClientHandler.class);
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        log.info("connect server success！");
+        TranData.TransProtocol message = TranData.TransProtocol.newBuilder()
+                .setPackType(TranData.PackType.CLIENT_ONLINE)
+                .setClientOnline(TranData.ClientOnline.newBuilder()
+                        .setTx2Id("1weqweqwsd")
+                        .setTx2Ip("192.168.8.157").build())
+                .build();
+
+        ctx.channel().writeAndFlush(message);
+    }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("ClientHandler:{}",msg.toString());
+        log.info("ClientHandler:{}", msg.toString());
         ctx.writeAndFlush("我是ClientHandler");
     }
 

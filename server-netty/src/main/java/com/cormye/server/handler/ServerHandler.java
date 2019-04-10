@@ -1,8 +1,12 @@
 package com.cormye.server.handler;
 
+import com.cormye.common.proto.TranData;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandler;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,23 +15,36 @@ import org.slf4j.LoggerFactory;
  * @Date: 2019-04-01 11:44
  * @Description:
  */
+@Slf4j
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
-    private static Logger logger = LoggerFactory.getLogger(ServerHandler.class);
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //默认的接收信息
-        ByteBuf buf = (ByteBuf) msg;
-        byte[] req = new byte[buf.readableBytes()];
-        buf.readBytes(req);
-        logger.info("收到来自{}客户端的消息：{}", ctx.channel().remoteAddress(), new String(req));
-        ctx.writeAndFlush("我是ServerHandler");
+    public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
+        log.info("client {} send heart",ctx.channel().remoteAddress());
+        super.userEventTriggered(ctx, evt);
     }
 
     @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        log.info("收到来自：{} 的消息",ctx.channel().remoteAddress());
+        TranData.TransProtocol msg1=(TranData.TransProtocol)msg;
+        System.out.println(msg1.getPackType().getNumber());
+        System.out.println(msg1.toString());
+    }
+
+
+//    @Override
+//    protected void channelRead0(ChannelHandlerContext ctx, TranData.TransProtocol msg) throws Exception {
+//        log.info("收到来自：{} 的消息",ctx.channel().remoteAddress());
+//        System.out.println(msg.getPackType());
+//        System.out.println(msg.toString());
+//
+//    }
+
+    @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        logger.info("{}客户端连接服务端", ctx.channel().remoteAddress());
+        log.info("{}客户端连接服务端", ctx.channel().remoteAddress());
     }
 
     @Override

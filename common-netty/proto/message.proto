@@ -1,9 +1,33 @@
 syntax="proto3";
 
 option java_package = "com.cormye.common.proto";
-option java_outer_classname="MessageProto";
+option java_outer_classname="TranData";
+option java_multiple_files = true;
 
-message Message {
-     string id = 1;
-     string content=2;
+enum PackType {
+     CLIENT_ONLINE = 0; //客户端上线 发送自己的ip和设备编号
+}
+
+//定义传输对象  也是整个数据包的根对象
+message TransProtocol{
+
+     //数据包类型
+     PackType packType=1;
+
+     //同一时刻 oneof只会有一个值存在
+     oneof PackBody{
+          ClientOnline clientOnline=2;
+
+     }
+
+}
+
+
+
+
+/*TX2上线消息*/
+//对应HeadType的CLIENT_ONLINE
+message ClientOnline{
+     string tx2Id=1;
+     string tx2Ip=2;
 }
