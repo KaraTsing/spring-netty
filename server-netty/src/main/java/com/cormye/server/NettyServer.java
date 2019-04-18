@@ -1,6 +1,6 @@
 package com.cormye.server;
 
-import com.cormye.common.proto.TranData;
+import com.cormye.common.proto.TransProtocol;
 import com.cormye.server.handler.ServerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -11,12 +11,8 @@ import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
 import io.netty.handler.timeout.IdleStateHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
@@ -51,10 +47,11 @@ public class NettyServer implements CommandLineRunner {
                                     .addLast(new IdleStateHandler(11, 0, 0))
                                     //编解码
                                     .addLast(new ProtobufVarint32FrameDecoder())
-                                    .addLast(new ProtobufDecoder(TranData.TransProtocol.getDefaultInstance()))
+                                    .addLast(new ProtobufDecoder(TransProtocol.getDefaultInstance()))
                                     .addLast(new ProtobufVarint32LengthFieldPrepender())
                                     .addLast(new ProtobufEncoder())
                                     .addLast(new ServerHandler());
+
                         }
                     });
 
@@ -71,4 +68,6 @@ public class NettyServer implements CommandLineRunner {
 
 
     }
+
+
 }

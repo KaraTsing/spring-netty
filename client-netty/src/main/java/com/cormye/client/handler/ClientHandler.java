@@ -1,6 +1,8 @@
 package com.cormye.client.handler;
 
-import com.cormye.common.proto.TranData;
+import com.cormye.common.proto.ClientOnline;
+import com.cormye.common.proto.PackType;
+import com.cormye.common.proto.TransProtocol;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +18,10 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("connect server success！");
-        TranData.TransProtocol message = TranData.TransProtocol.newBuilder()
-                .setPackType(TranData.PackType.CLIENT_ONLINE)
-                .setClientOnline(TranData.ClientOnline.newBuilder()
+
+        TransProtocol message = TransProtocol.newBuilder()
+                .setPackType(PackType.CLIENT_ONLINE)
+                .setClientOnline(ClientOnline.newBuilder()
                         .setTx2Id("1weqweqwsd")
                         .setTx2Ip("192.168.8.157").build())
                 .build();

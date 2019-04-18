@@ -1,14 +1,10 @@
 package com.cormye.server.handler;
 
-import com.cormye.common.proto.TranData;
-import io.netty.buffer.ByteBuf;
+import com.cormye.common.proto.TransProtocol;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandler;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 
 /**
  * @Auther: cormye
@@ -28,9 +24,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         log.info("收到来自：{} 的消息",ctx.channel().remoteAddress());
-        TranData.TransProtocol msg1=(TranData.TransProtocol)msg;
+
+        TransProtocol msg1=(TransProtocol)msg;
         System.out.println(msg1.getPackType().getNumber());
         System.out.println(msg1.toString());
+
+
     }
 
 
